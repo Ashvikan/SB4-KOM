@@ -5,8 +5,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.MathUtils;
 import dk.sdu.mmmi.cbse.main.Game;
 
+import java.util.ArrayList;
+
 public class Player extends SpaceObject {
 
+    protected ArrayList<Bullet> bullets;
     private boolean left;
     private boolean right;
     private boolean up;
@@ -14,8 +17,14 @@ public class Player extends SpaceObject {
     private float maxSpeed;
     private float acceleration;
     private float deceleration;
+    private boolean shoot;
 
-    public Player() {
+    public void setShoot(boolean b) {
+        shoot = b;
+    }
+
+    public Player(ArrayList<Bullet> bullets) {
+        this.bullets = bullets;
 
         x = Game.WIDTH / 2;
         y = Game.HEIGHT / 2;
@@ -29,7 +38,6 @@ public class Player extends SpaceObject {
 
         radians = 3.1415f / 2;
         rotationSpeed = 3;
-
     }
 
     private void setShape() {
@@ -59,7 +67,6 @@ public class Player extends SpaceObject {
     }
 
     public void update(float dt) {
-
         // turning
         if (left) {
             radians += rotationSpeed * dt;
@@ -93,25 +100,16 @@ public class Player extends SpaceObject {
 
         // screen wrap
         wrap();
-
     }
 
     public void draw(ShapeRenderer sr) {
-
         sr.setColor(1, 1, 1, 1);
-
         sr.begin(ShapeType.Line);
 
-        for (int i = 0, j = shapex.length - 1;
-                i < shapex.length;
-                j = i++) {
-
+        for (int i = 0, j = shapex.length - 1; i < shapex.length; j = i++) {
             sr.line(shapex[i], shapey[i], shapex[j], shapey[j]);
-
         }
 
         sr.end();
-
     }
-
 }
